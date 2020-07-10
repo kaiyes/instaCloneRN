@@ -12,6 +12,7 @@ import {
 	widthPercentageToDP as wp,
 	heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
+import {Ionicons, AntDesign} from '@expo/vector-icons'
 
 export default function HomeScreen() {
 	return (
@@ -45,9 +46,26 @@ export default function HomeScreen() {
 						</View>
 					</View>
 
-					<TouchableOpacity style={styles.button}>
-						<Text style={styles.buttonText}>Message</Text>
-					</TouchableOpacity>
+					<View style={styles.buttonHolder}>
+						<TouchableOpacity style={styles.button}>
+							<Text style={styles.buttonText}>Message</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity style={styles.button}>
+							<Ionicons
+								name="md-person"
+								size={24}
+								color="black"
+								style={styles.icon}
+							/>
+							<AntDesign
+								name="check"
+								size={24}
+								color="black"
+								style={styles.icon2}
+							/>
+						</TouchableOpacity>
+					</View>
 				</View>
 			</View>
 		</SafeAreaView>
@@ -81,6 +99,7 @@ const styles = StyleSheet.create({
 	topRow: {
 		flexDirection: 'row',
 		justifyContent: 'space-around',
+		marginBottom: hp('1%'),
 	},
 	number: {
 		fontWeight: '500',
@@ -94,12 +113,25 @@ const styles = StyleSheet.create({
 		borderColor: 'silver',
 		borderWidth: 1,
 		borderRadius: 5,
-		justifyContent: 'center',
+		flexDirection: 'row',
 		alignItems: 'center',
-		marginTop: hp('1.5%'),
+		marginRight: wp('2%'),
 	},
 	buttonText: {
 		color: '#162129',
 		paddingVertical: hp('1%'),
+		paddingHorizontal: wp('17%'),
+	},
+	buttonHolder: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		marginRight: wp('3%'),
+	},
+	icon: {
+		paddingVertical: hp('.5%'),
+		marginLeft: wp('2%'),
+	},
+	icon2: {
+		marginRight: wp('1%'),
 	},
 })
