@@ -1,5 +1,5 @@
 import {StatusBar} from 'expo-status-bar'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {
 	StyleSheet,
 	Text,
@@ -8,6 +8,8 @@ import {
 	Image,
 	TouchableOpacity,
 	ScrollView,
+	FlatList,
+	ActivityIndicator,
 } from 'react-native'
 import {
 	widthPercentageToDP as wp,
@@ -16,6 +18,33 @@ import {
 import {Ionicons, AntDesign} from '@expo/vector-icons'
 
 export default function HomeScreen() {
+	const [images, setImages] = useState([])
+	const [loading, setLoading] = useState(false)
+
+	function Card(item) {
+		return <Image source={{uri: item.webformatURL}} style={styles.card} />
+	}
+
+	async function fetch_images() {
+		const data = await fetch(
+			`https://pixabay.com/api/?key=+flowers&image_type=photo&pretty=true`,
+			{
+				method: 'GET',
+			}
+		)
+		const jsonifiedData = await data.json()
+		return jsonifiedData.hits
+	}
+
+	useEffect(() => {
+		;(async function fetchData() {
+			setLoading(true)
+			let imageArray = await fetch_images()
+			setImages(imageArray)
+			setLoading(false)
+		})()
+	}, [])
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.infoCard}>
@@ -99,9 +128,7 @@ export default function HomeScreen() {
 										'https://pickaface.net/gallery/avatar/unr_willsmith_170130_2033_2pb8gtu.png',
 								}}
 							/>
-							<Text style={styles.channelNameText}>
-								Channel Name
-							</Text>
+							<Text style={styles.channelNameText}>Channel</Text>
 						</TouchableOpacity>
 					))}
 				</ScrollView>
@@ -110,6 +137,13 @@ export default function HomeScreen() {
 			<TouchableOpacity style={styles.emailHolder}>
 				<Text style={styles.emailText}>Email</Text>
 			</TouchableOpacity>
+
+			<FlatList
+				data={images}
+				keyExtractor={item => item.id}
+				numColumns={3}
+				renderItem={({item}) => Card(item)}
+			/>
 		</SafeAreaView>
 	)
 }
@@ -241,5 +275,10 @@ const styles = StyleSheet.create({
 		paddingVertical: hp('1%'),
 		color: 'dodgerblue',
 		fontSize: 18,
+	},
+
+	card: {
+		width: wp('30%'),
+		height: wp('30%'),
 	},
 })
