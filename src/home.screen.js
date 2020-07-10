@@ -1,5 +1,5 @@
-import {StatusBar} from 'expo-status-bar'
-import React, {useState, useEffect} from 'react'
+import { StatusBar } from 'expo-status-bar'
+import React, { useState, useEffect } from 'react'
 import {
 	StyleSheet,
 	Text,
@@ -15,28 +15,16 @@ import {
 	widthPercentageToDP as wp,
 	heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
-import {Ionicons, AntDesign} from '@expo/vector-icons'
+import { Ionicons, AntDesign } from '@expo/vector-icons'
 
-export default function HomeScreen({navigation: {navigate}}) {
+export default function HomeScreen({ navigation: { navigate } }) {
 	const [images, setImages] = useState([])
-	const [loading, setLoading] = useState(false)
 	const [page, setPage] = useState(1)
 	const [refreshing, setRefreshing] = useState(false)
 
-	function Card(item) {
-		return (
-			<TouchableOpacity
-				key={item.id.toString()}
-				onPress={() => navigate('Detail')}
-			>
-				<Image source={{uri: item.webformatURL}} style={styles.card} />
-			</TouchableOpacity>
-		)
-	}
-
 	async function fetch_images() {
 		const data = await fetch(
-			`https://pixabay.com/api/?key=+flowers&image_type=photo&page=${page}`,
+			`https://pixabay.com/api/?key=17418203-c05b040d098294b53e1f188bb&q+flowers&image_type=photo&page=${page}`,
 			{
 				method: 'GET',
 			}
@@ -52,19 +40,34 @@ export default function HomeScreen({navigation: {navigate}}) {
 		if (newImages[0].id != images[0].id) {
 			await setImages([...images, ...newImages])
 		}
-		console.log(page)
 		setRefreshing(false)
 	}
 
 	useEffect(() => {
 		;(async function fetchData() {
-			setLoading(true)
 			setPage(1)
 			let imageArray = await fetch_images()
 			setImages(imageArray)
-			setLoading(false)
 		})()
 	}, [])
+
+	function Card(item) {
+		return (
+			<TouchableOpacity
+				key={item.id.toString()}
+				onPress={() =>
+					navigate('Detail', {
+						image: item.webformatURL,
+					})
+				}
+			>
+				<Image
+					source={{ uri: item.webformatURL }}
+					style={styles.card}
+				/>
+			</TouchableOpacity>
+		)
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -174,7 +177,7 @@ export default function HomeScreen({navigation: {navigate}}) {
 				}
 				onEndReached={() => fetchMore()}
 				onEndReachedThreshold={Platform.OS === 'ios' ? 0 : 0.7}
-				renderItem={({item}) => Card(item)}
+				renderItem={({ item }) => Card(item)}
 			/>
 		</SafeAreaView>
 	)
