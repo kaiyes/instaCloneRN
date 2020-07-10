@@ -17,7 +17,7 @@ import {
 } from 'react-native-responsive-screen'
 import {Ionicons, AntDesign} from '@expo/vector-icons'
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation: {navigate}}) {
 	const [images, setImages] = useState([])
 	const [loading, setLoading] = useState(false)
 	const [page, setPage] = useState(1)
@@ -25,7 +25,10 @@ export default function HomeScreen() {
 
 	function Card(item) {
 		return (
-			<TouchableOpacity>
+			<TouchableOpacity
+				key={item.id.toString()}
+				onPress={() => navigate('Detail')}
+			>
 				<Image source={{uri: item.webformatURL}} style={styles.card} />
 			</TouchableOpacity>
 		)
@@ -33,7 +36,7 @@ export default function HomeScreen() {
 
 	async function fetch_images() {
 		const data = await fetch(
-			`https://pixabay.com/api/?key=17418+flowers&image_type=photo&page=${page}`,
+			`https://pixabay.com/api/?key=+flowers&image_type=photo&page=${page}`,
 			{
 				method: 'GET',
 			}
@@ -49,12 +52,14 @@ export default function HomeScreen() {
 		if (newImages[0].id != images[0].id) {
 			await setImages([...images, ...newImages])
 		}
+		console.log(page)
 		setRefreshing(false)
 	}
 
 	useEffect(() => {
 		;(async function fetchData() {
 			setLoading(true)
+			setPage(1)
 			let imageArray = await fetch_images()
 			setImages(imageArray)
 			setLoading(false)
@@ -136,7 +141,7 @@ export default function HomeScreen() {
 					contentContainerStyle={styles.scrollView}
 				>
 					{new Array(10).fill(1).map((item, index) => (
-						<TouchableOpacity>
+						<TouchableOpacity key={index.toString()}>
 							<Image
 								style={styles.avatarSecond}
 								source={{
