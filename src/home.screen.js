@@ -17,7 +17,7 @@ import {Ionicons, AntDesign} from '@expo/vector-icons'
 export default function HomeScreen() {
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.topCard}>
+			<View style={styles.infoCard}>
 				<View style={styles.avatarHolder}>
 					<Image
 						style={styles.avatar}
@@ -61,11 +61,25 @@ export default function HomeScreen() {
 							<AntDesign
 								name="check"
 								size={24}
-								color="black"
+								color="royalblue"
 								style={styles.icon2}
 							/>
 						</TouchableOpacity>
 					</View>
+				</View>
+			</View>
+
+			<View style={styles.nameCard}>
+				<Text style={styles.name}>Will Smith</Text>
+				<Text style={styles.professionText}>Artist</Text>
+				<Text style={styles.bodyText}>
+					New playground. Same kid from West Philly.
+				</Text>
+				<View style={styles.basicRow}>
+					<Text style={styles.followText}>Followed by </Text>
+					<TouchableOpacity>
+						<Text style={styles.followerText}>therock</Text>
+					</TouchableOpacity>
 				</View>
 			</View>
 		</SafeAreaView>
@@ -77,7 +91,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: 'white',
 	},
-	topCard: {
+	infoCard: {
 		paddingTop: hp('1%'),
 		paddingLeft: wp('3%'),
 		flexDirection: 'row',
@@ -133,5 +147,39 @@ const styles = StyleSheet.create({
 	},
 	icon2: {
 		marginRight: wp('1%'),
+	},
+
+	nameCard: {
+		marginTop: hp('1%'),
+		paddingLeft: wp('3%'),
+	},
+	name: {
+		color: '#162129',
+		fontWeight: '500',
+		fontSize: 18,
+	},
+	professionText: {
+		color: 'silver',
+		fontSize: 18,
+		marginVertical: hp('.5%'),
+	},
+	bodyText: {
+		color: 'black',
+		fontSize: 17,
+		fontWeight: '300',
+	},
+	followText: {
+		color: 'silver',
+		fontSize: 14,
+		marginVertical: hp('.6%'),
+	},
+	basicRow: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	followerText: {
+		color: '#162129',
+		fontWeight: '500',
+		fontSize: 14,
 	},
 })
