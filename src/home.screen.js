@@ -7,6 +7,7 @@ import {
 	SafeAreaView,
 	Image,
 	TouchableOpacity,
+	ScrollView,
 } from 'react-native'
 import {
 	widthPercentageToDP as wp,
@@ -60,7 +61,7 @@ export default function HomeScreen() {
 							/>
 							<AntDesign
 								name="check"
-								size={24}
+								size={18}
 								color="royalblue"
 								style={styles.icon2}
 							/>
@@ -82,6 +83,33 @@ export default function HomeScreen() {
 					</TouchableOpacity>
 				</View>
 			</View>
+
+			<View style={styles.scrollViewContainer}>
+				<ScrollView
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					contentContainerStyle={styles.scrollView}
+				>
+					{new Array(10).fill(1).map((item, index) => (
+						<TouchableOpacity>
+							<Image
+								style={styles.avatarSecond}
+								source={{
+									uri:
+										'https://pickaface.net/gallery/avatar/unr_willsmith_170130_2033_2pb8gtu.png',
+								}}
+							/>
+							<Text style={styles.channelNameText}>
+								Channel Name
+							</Text>
+						</TouchableOpacity>
+					))}
+				</ScrollView>
+			</View>
+
+			<TouchableOpacity style={styles.emailHolder}>
+				<Text style={styles.emailText}>Email</Text>
+			</TouchableOpacity>
 		</SafeAreaView>
 	)
 }
@@ -150,7 +178,7 @@ const styles = StyleSheet.create({
 	},
 
 	nameCard: {
-		marginTop: hp('1%'),
+		marginTop: hp('2%'),
 		paddingLeft: wp('3%'),
 	},
 	name: {
@@ -181,5 +209,37 @@ const styles = StyleSheet.create({
 		color: '#162129',
 		fontWeight: '500',
 		fontSize: 14,
+	},
+	scrollViewContainer: {
+		height: hp('13%'),
+	},
+	avatarSecond: {
+		width: wp('14%'),
+		height: wp('14%'),
+		borderRadius: wp('7%'),
+		borderWidth: 2,
+		borderColor: 'white',
+		marginRight: wp('5%'),
+	},
+	scrollView: {
+		paddingLeft: wp('3%'),
+		marginTop: hp('2%'),
+	},
+	channelNameText: {
+		width: wp('15%'),
+		flexWrap: 'wrap',
+		color: 'dimgray',
+	},
+
+	emailHolder: {
+		borderWidth: 0.5,
+		borderColor: 'silver',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	emailText: {
+		paddingVertical: hp('1%'),
+		color: 'dodgerblue',
+		fontSize: 18,
 	},
 })
