@@ -16,21 +16,91 @@ import {
 	heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
 import { SimpleLineIcons, MaterialIcons } from '@expo/vector-icons'
+import styled from 'styled-components/native'
+
+const Container = styled.View`
+	background: white;
+	flex: 1;
+`
+
+const UserRow = styled.View`
+	display: flex;
+	flex-direction: row;
+	padding-left: 3%;
+	margin-vertical: 3%;
+	align-items: center;
+`
+
+const Avatar = styled.Image`
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	border-width: 2px;
+	border-color: white;
+	margin-right: 1%;
+`
+
+const MainImage = styled.Image`
+	width: 100%;
+	height: 50%;
+`
+
+const UserName = styled.Text`
+	color: black;
+	font-size: 17px;
+	font-weight: bold;
+`
+
+const LikeText = styled.Text`
+	color: black;
+	font-size: 14px;
+	margin-left: 3%;
+	margin-vertical: 1%;
+`
+
+const HashTagText = styled.Text`
+	color: dodgerblue;
+	margin-right: 1%;
+	margin-left: 3%;
+	margin-vertical: 3%;
+`
+
+const BodyText = styled.Text`
+	margin-horizontal: 3%;
+`
+
+const DateText = styled.Text`
+	color: gray;
+	margin-left: 3%;
+`
+
+const IconRow = styled.View`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding-horizontal: 3%;
+	margin-top: 3%;
+`
+
+const LeftSide = styled.View`
+	display: flex;
+	flex-direction: row;
+`
 
 export default function DetailScreen({ route }) {
 	const { image } = route.params
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.userRow}>
-				<Image source={{ uri: image }} style={styles.avatar} />
-				<Text style={styles.userNameText}>SomeUserName</Text>
-			</View>
+		<Container>
+			<UserRow>
+				<Avatar source={{ uri: image }} />
+				<UserName>SomeUserName </UserName>
+			</UserRow>
 
-			<Image source={{ uri: image }} style={styles.image} />
+			<MainImage source={{ uri: image }} />
 
-			<View style={styles.iconRow}>
-				<View style={styles.leftSide}>
+			<IconRow>
+				<LeftSide>
 					<TouchableOpacity>
 						<SimpleLineIcons
 							name="heart"
@@ -55,7 +125,7 @@ export default function DetailScreen({ route }) {
 							style={styles.icon}
 						/>
 					</TouchableOpacity>
-				</View>
+				</LeftSide>
 
 				<TouchableOpacity>
 					<MaterialIcons
@@ -65,83 +135,28 @@ export default function DetailScreen({ route }) {
 						style={styles.icon}
 					/>
 				</TouchableOpacity>
-			</View>
+			</IconRow>
 
-			<Text style={styles.likeText}>35 likes</Text>
+			<LikeText>35 likes</LikeText>
 
-			<Text style={styles.bodyText}>
+			<BodyText>
 				a productivity channel can really be a wonderful thing to
 				manage. Also, it's a great way to promote our productivity app
-			</Text>
+			</BodyText>
 
-			<View style={styles.tagRow}>
-				<Text style={styles.hashTag}>#productivity</Text>
-				<Text style={styles.hashTag}>#diy</Text>
-				<Text style={styles.hashTag}>#app</Text>
-			</View>
+			<LeftSide>
+				<HashTagText>#productivity</HashTagText>
+				<HashTagText>#diy</HashTagText>
+				<HashTagText>#app</HashTagText>
+			</LeftSide>
 
-			<Text style={styles.dateText}>10th July, 2020</Text>
-		</View>
+			<DateText>10th July, 2020</DateText>
+		</Container>
 	)
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: 'white',
-	},
-	image: {
-		width: wp('100%'),
-		height: hp('50%'),
-	},
-	avatar: {
-		width: wp('10%'),
-		height: wp('10%'),
-		borderRadius: wp('5%'),
-		borderWidth: 2,
-		borderColor: 'white',
-		marginRight: wp('1%'),
-	},
-	userRow: {
-		flexDirection: 'row',
-		paddingLeft: wp('3%'),
-		marginVertical: wp('3%'),
-		alignItems: 'center',
-	},
-	userName: {},
-	iconRow: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingHorizontal: wp('3%'),
-		marginTop: hp('1%'),
-	},
 	icon: {
 		marginRight: wp('2%'),
-	},
-	leftSide: {
-		flexDirection: 'row',
-	},
-
-	likeText: {
-		marginLeft: wp('3%'),
-		marginVertical: hp('1%'),
-	},
-	bodyText: {
-		marginHorizontal: wp('3%'),
-	},
-
-	tagRow: {
-		flexDirection: 'row',
-	},
-	hashTag: {
-		color: 'dodgerblue',
-		marginRight: wp('1%'),
-		marginLeft: wp('3%'),
-		marginVertical: hp('1%'),
-	},
-
-	dateText: {
-		color: 'gray',
-		marginLeft: wp('3%'),
 	},
 })
