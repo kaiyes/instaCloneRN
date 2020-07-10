@@ -20,20 +20,36 @@ import {Ionicons, AntDesign} from '@expo/vector-icons'
 export default function HomeScreen() {
 	const [images, setImages] = useState([])
 	const [loading, setLoading] = useState(false)
+	const [page, setPage] = useState(1)
+	const [refreshing, setRefreshing] = useState(false)
 
 	function Card(item) {
-		return <Image source={{uri: item.webformatURL}} style={styles.card} />
+		return (
+			<TouchableOpacity>
+				<Image source={{uri: item.webformatURL}} style={styles.card} />
+			</TouchableOpacity>
+		)
 	}
 
 	async function fetch_images() {
 		const data = await fetch(
-			`https://pixabay.com/api/?key=+flowers&image_type=photo&pretty=true`,
+			`https://pixabay.com/api/?key=17418+flowers&image_type=photo&page=${page}`,
 			{
 				method: 'GET',
 			}
 		)
 		const jsonifiedData = await data.json()
 		return jsonifiedData.hits
+	}
+
+	async function fetchMore() {
+		setRefreshing(true)
+		await setPage(page => page + 1)
+		let newImages = await fetch_images()
+		if (newImages[0].id != images[0].id) {
+			await setImages([...images, ...newImages])
+		}
+		setRefreshing(false)
 	}
 
 	useEffect(() => {
@@ -142,6 +158,17 @@ export default function HomeScreen() {
 				data={images}
 				keyExtractor={item => item.id}
 				numColumns={3}
+				ListFooterComponent={() =>
+					refreshing ? (
+						<ActivityIndicator
+							size={'small'}
+							color={'slateblue'}
+							style={styles.indicator}
+						/>
+					) : null
+				}
+				onEndReached={() => fetchMore()}
+				onEndReachedThreshold={Platform.OS === 'ios' ? 0 : 0.7}
 				renderItem={({item}) => Card(item)}
 			/>
 		</SafeAreaView>
@@ -278,7 +305,9 @@ const styles = StyleSheet.create({
 	},
 
 	card: {
-		width: wp('30%'),
+		width: wp('33%'),
 		height: wp('30%'),
+		marginRight: 1,
+		marginBottom: 1,
 	},
 })
